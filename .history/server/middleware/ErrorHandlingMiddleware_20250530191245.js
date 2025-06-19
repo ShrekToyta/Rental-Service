@@ -1,0 +1,10 @@
+import ApiError from "../error/ApiError.js";
+import { app } from "../index.js";
+
+export default function errorMiddleware(err,req,res,next){
+    if(err instanceof ApiError){
+        return res.status(err.status).json({message: err.message});
+    }
+    return res.status(500).json({message: 'Непредвиденная ошибка!'});
+}
+app.use(errorMiddleware);
